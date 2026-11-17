@@ -63,7 +63,7 @@ GGUF, and promoted only when a **zero-trust promotion gate** (target-margin
 | Benchmarks `B_target` / `B_general` | `benchmarks/` | ✅ fixed, held-out, calibrated for consistency |
 | Anchor replay set (verified) | `data/anchors.jsonl` | ✅ 16/16 pass the verifier |
 | `.cgp` packages | `packages/` | ✅ `base-model-v0`, `rsi-controller` packed & verified |
-| CI (pytest + mock e2e + cpm pack/verify) | `.github/workflows/ci.yml` | ✅ |
+| CI (pytest + mock e2e on ubuntu; cpm pack/verify encapsulated in Alpine — `.github/docker/Dockerfile.ci`) | `.github/workflows/ci.yml` + `release.yml` | ✅ |
 | Empirical M0→M5 run | — | ⏳ pending GPU host |
 
 ## Execution steps
