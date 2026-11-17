@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cgp-rsi"
+version = "0.1.0"
+description = "Recursive Self-Improvement via .cgp Cognitive Patches — zero-trust, verifier-gated RSI pipeline (code representation)"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Jean Machuca", email = "jean@cognitiveos-labs.dev" }]
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+# Heavy training-time deps are intentionally NOT here. They live on the GPU
+# training host: torch, peft, safetensors, transformers, llama.cpp.
+
+[tool.setuptools.packages.find]
+include = ["rsi*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

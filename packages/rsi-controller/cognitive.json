@@ -1,0 +1,54 @@
+{
+  "name": "rsi-controller",
+  "version": "0.1.0",
+  "description": "Recursive Self-Improvement controller for CognitiveOS. Implements the deterministic verifier, zero-trust promotion gate, and the cpm tune Controller Pattern (cognitiveos.rsi.tune) for LoRA fine-tuning of base-model-v0 over verified synthetic Python-synthesis data.",
+  "author": "CognitiveOS-Labs",
+  "license": "MIT",
+  "source": {
+    "repository": "https://github.com/CognitiveOS-Labs/cgp-rsi",
+    "issues": "https://github.com/CognitiveOS-Labs/cgp-rsi/issues"
+  },
+  "hardware_requirements": {
+    "os": ["linux"],
+    "arch": ["amd64", "arm64"],
+    "min_ram_mb": 1024,
+    "min_storage_mb": 256,
+    "npu_required": false
+  },
+  "brain": {
+    "wide_model": {
+      "base_model": "base-model-v0"
+    },
+    "training": {
+      "tool": "cognitiveos.rsi.tune",
+      "output_path": "adapters/rsi-lora.bin",
+      "data_requirements": {
+        "min_samples": 50
+      },
+      "hyperparameters": {
+        "rank": 16,
+        "alpha": 32,
+        "epochs": 2,
+        "learning_rate": 0.0002
+      }
+    }
+  },
+  "runtime": {
+    "system_prompt": "prompts/system.md",
+    "tools_root": "tools",
+    "mcp_servers": [
+      {
+        "name": "rsi-controller",
+        "command": "rsi-controller",
+        "transport": "stdio"
+      }
+    ],
+    "capabilities": [
+      "rsi",
+      "rsi.verify",
+      "rsi.gate",
+      "rsi.tune",
+      "python-synthesis"
+    ]
+  }
+}

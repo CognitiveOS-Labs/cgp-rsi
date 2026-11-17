@@ -1,0 +1,8 @@
+{"id": "bg-001", "kind": "instruction", "prompt": "Answer with exactly one word: what is the capital of France?", "expected_substring": "Paris"}
+{"id": "bg-002", "kind": "instruction", "prompt": "Reply with only 'yes' or 'no': is the sky blue on a clear day?", "expected_substring": "yes"}
+{"id": "bg-003", "kind": "instruction", "prompt": "Respond with the number only: what is 17 + 25?", "expected_substring": "42"}
+{"id": "bg-004", "kind": "instruction", "prompt": "Name the planet known as the Red Planet. Answer with one word.", "expected_substring": "Mars"}
+{"id": "bg-005", "kind": "instruction", "prompt": "Echo the word 'ping' and nothing else.", "expected_substring": "ping"}
+{"id": "bg-006", "kind": "instruction", "prompt": "Translate the English word 'hello' to German. Answer with one word.", "expected_substring": "hallo"}
+{"id": "bg-007", "kind": "instruction", "prompt": "Answer with exactly one word: which gas do plants absorb from the atmosphere for photosynthesis?", "expected_substring": "carbon dioxide"}
+{"id": "bg-008", "kind": "instruction", "prompt": "What is the boiling point of water at sea level, in degrees Celsius? Answer with the number only.", "expected_substring": "100"}

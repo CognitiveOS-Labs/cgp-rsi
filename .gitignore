@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+*.egg-info/
+
+# Run artifacts (MOCK or real) — metrics and adapters are regenerated per run
+runs/
+
+# OS noise
+._*
+.DS_Store
+
+# NOTE: packages/*/*.cgp ARE committed — they are versioned release artifacts
+# referenced by the research paper.

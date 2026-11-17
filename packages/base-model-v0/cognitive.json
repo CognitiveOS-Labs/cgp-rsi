@@ -1,0 +1,51 @@
+{
+  "name": "base-model-v0",
+  "version": "0.1.0",
+  "description": "Initial base model for the Recursive Self-Improvement pipeline (M_0). Wide model with remote FP16/BF16 safetensors weights (downloaded at install time); LoRA adapters from `cpm tune` are merged into the FP16 master, never into quantized GGUF form.",
+  "author": "CognitiveOS-Labs",
+  "license": "MIT",
+  "source": {
+    "repository": "https://github.com/CognitiveOS-Labs/cgp-rsi",
+    "issues": "https://github.com/CognitiveOS-Labs/cgp-rsi/issues"
+  },
+  "hardware_requirements": {
+    "os": ["linux"],
+    "arch": ["amd64", "arm64"],
+    "min_ram_mb": 8192,
+    "min_storage_mb": 4096,
+    "npu_required": false
+  },
+  "brain": {
+    "wide_model": {
+      "base_model": "google/gemma-3-1b-it",
+      "weights": {
+        "method": "remote",
+        "remote": {
+          "source": "huggingface",
+          "model_id": "google/gemma-3-1b-it",
+          "format": "safetensors"
+        }
+      }
+    },
+    "training": {
+      "tool": "cognitiveos.rsi.tune",
+      "output_path": "adapters/rsi-lora.bin",
+      "data_requirements": {
+        "min_samples": 50
+      },
+      "hyperparameters": {
+        "rank": 16,
+        "alpha": 32,
+        "epochs": 2,
+        "learning_rate": 0.0002
+      }
+    }
+  },
+  "runtime": {
+    "capabilities": [
+      "rsi",
+      "recursive-self-improvement",
+      "python-synthesis"
+    ]
+  }
+}
