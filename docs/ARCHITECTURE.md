@@ -37,7 +37,7 @@ mechanically checkable. Each generation:
    - **Sandbox**: subprocess with `RLIMIT_CPU=5s`, `RLIMIT_AS=256MB`,
      `RLIMIT_NPROC=64`, `RLIMIT_FSIZE=1MB`, wall-clock timeout, cwd in a
      temp dir, no env inheritance beyond the runner's.
-   - **Scoring**: the full hidden suite must pass (`Verdict.passed`),
+   - **Scoring**: the full hidden suite MUST pass (`Verdict.passed`),
      otherwise the sample is discarded.
 4. Verified samples are mixed with the **anchor replay buffer**
    (`data/anchors.jsonl`, 16 human-authored, verifier-passing problems) at a
