@@ -1,0 +1,11 @@
+# grpcfuse working copies accumulate AppleDouble (._*) artifacts and the
+# FUSE layer misreports context files; keep the build context minimal.
+.git
+**/._*
+**/.DS_Store
+runs/
+**/runs/
+.venv/
+.pytest_cache/
+**/__pycache__/
+**/*.pyc

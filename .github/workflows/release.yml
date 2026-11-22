@@ -9,21 +9,29 @@ permissions:
 
 jobs:
   release:
+    # Build inside the encapsulated Alpine image — cpm and the verifier run
+    # in the same environment CognitiveOS packages ship in.
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Build encapsulated Alpine image (cpm pack + verify)
+        uses: docker/build-push-action@v6
         with:
-          go-version: '1.26'
-      - name: Install cpm
-        run: go install github.com/CognitiveOS-Project/cpm/cmd/cpm@v1.0.9-alpha
-      - name: Pack + verify .cgp packages
+          context: .
+          file: .github/docker/Dockerfile.ci
+          platforms: linux/amd64
+          load: true
+          tags: cgp-ci:local
+      - name: Extract .cgp artifacts
         run: |
-          export PATH="$PATH:$(go env GOPATH)/bin"
-          cd packages/base-model-v0 && cpm pack --manifest cognitive.json && cpm verify base-model-v0-*.cgp
-          cd ../rsi-controller && chmod 755 tools/rsi-controller && cpm pack --bin tools && cpm verify rsi-controller-*.cgp
+          id=$(docker create cgp-ci:local)
+          docker cp "$id":/out ./out
+          docker rm "$id"
+          ls -la out/
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: packages/*/*.cgp
+          files: out/*.cgp
           generate_release_notes: true

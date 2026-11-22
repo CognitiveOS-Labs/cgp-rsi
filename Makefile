@@ -5,12 +5,13 @@
 #   make build     Pack both .cgp packages via cpm
 #   make verify    Verify the packed archives
 #   make mock-e2e  Run the 2-generation MOCK pipeline
+#   make ci        Reproduce the encapsulated Alpine CI build locally (requires docker)
 #   make clean     Remove build artifacts
 
 CPM ?= cpm
 NAMES := base-model-v0 rsi-controller
 
-.PHONY: all test build verify mock-e2e install clean
+.PHONY: all test build verify mock-e2e install clean ci
 
 all: test build verify
 
@@ -31,6 +32,14 @@ verify:
 install: build
 	cd packages/base-model-v0 && $(CPM) install base-model-v0-*.cgp
 	cd packages/rsi-controller && $(CPM) install rsi-controller-*.cgp
+
+ci:
+	docker build -t cgp-ci:local -f .github/docker/Dockerfile.ci .
+	rm -rf out
+	id=$$(docker create cgp-ci:local); \
+	docker cp $$id:/out ./out; \
+	docker rm $$id
+	@echo "CI artifacts in ./out/"
 
 clean:
 	rm -f packages/*/*.cgp
