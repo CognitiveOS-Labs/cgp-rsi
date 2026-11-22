@@ -1,0 +1,33 @@
+# syntax=docker/dockerfile:1
+# Encapsulated build for the cpm/CognitiveOS steps.
+# CognitiveOS is Alpine-based, so every cpm invocation runs on Alpine here.
+# The pytest suite stays on ubuntu in CI (no cpm dependency); everything a
+# .cgp consumer would run is validated in this image.
+
+ARG GO_VERSION=1.26
+FROM golang:${GO_VERSION}-alpine AS cpm-builder
+RUN apk add --no-cache git ca-certificates
+RUN go install github.com/CognitiveOS-Project/cpm/cmd/cpm@v1.0.9-alpha
+
+FROM alpine:3
+WORKDIR /src
+RUN apk add --no-cache python3 jq
+COPY . .
+COPY --from=cpm-builder /go/bin/cpm /usr/local/bin/cpm
+RUN mkdir -p /out
+
+# 1) Anchors must pass the deterministic verifier in the same environment
+#    CognitiveOS packages will run in (stdlib-only; no pip install).
+RUN python3 scripts/check_anchors.py
+
+# 2) Pack + auto-verify both patches (cpm verifies after packing).
+RUN cd packages/base-model-v0 \
+    && cpm pack --manifest cognitive.json \
+    && cpm verify base-model-v0-*.cgp
+RUN cd packages/rsi-controller \
+    && chmod 755 tools/rsi-controller \
+    && cpm pack --bin tools \
+    && cpm verify rsi-controller-*.cgp
+
+# 3) Export artifacts for the outer CI job (docker cp /out).
+RUN cp packages/base-model-v0/*.cgp packages/rsi-controller/*.cgp /out/

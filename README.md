@@ -63,7 +63,7 @@ GGUF, and promoted only when a **zero-trust promotion gate** (target-margin
 | Benchmarks `B_target` / `B_general` | `benchmarks/` | ✅ fixed, held-out, calibrated for consistency |
 | Anchor replay set (verified) | `data/anchors.jsonl` | ✅ 16/16 pass the verifier |
 | `.cgp` packages | `packages/` | ✅ `base-model-v0`, `rsi-controller` packed & verified |
-| CI (pytest + mock e2e + cpm pack/verify) | `.github/workflows/ci.yml` | ✅ |
+| CI (pytest + mock e2e on ubuntu; cpm pack/verify encapsulated in Alpine — `.github/docker/Dockerfile.ci`) | `.github/workflows/ci.yml` + `release.yml` | ✅ |
 | Empirical M0→M5 run | — | ⏳ pending GPU host |
 
 ## Execution steps
@@ -118,4 +118,12 @@ python3 scripts/run_ablation.py C   # unverified autophagous loop
 
 ## How to contribute
 
-See the research repo's [CONTRIBUTING.md](https://github.com/CognitiveOS-Labs/cgp-recursive-self-improvement-research/blob/main/CONTRIBUTING.md): fork, topic branch from `development`, PR with a clear description; never push directly to `main`/`development`; `cpm pack && cpm verify` must pass for any `.cgp` change.
+See the research repo's [CONTRIBUTING.md](https://github.com/CognitiveOS-Labs/cgp-recursive-self-improvement-research/blob/main/CONTRIBUTING.md): fork, topic branch from `development`, PR with a clear description; never push directly to `main`/`development`; `cpm pack && cpm verify` MUST pass for any `.cgp` change.
+
+## Governance artifacts
+
+This repository is governed by the [`MISSION.md`](https://github.com/CognitiveOS-Labs/cgp-recursive-self-improvement-research/blob/development/MISSION.md)
+and [`HUD.md`](https://github.com/CognitiveOS-Labs/cgp-recursive-self-improvement-research/blob/development/HUD.md)
+in the research repo (Vibe Leading framework): Frequency Stealth/Precision,
+three HUD signals with triggers, Observer Access for stakeholders on request.
+Normative statements use RFC 2119 keywords throughout.

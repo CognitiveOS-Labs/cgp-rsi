@@ -90,7 +90,7 @@ llama.cpp convert_hf_to_gguf.py <merged_dir> --outfile M.gguf --outtype q8_0
 
 then measure top-1 agreement / KL divergence between FP16 master and GGUF on
 `B_target` prompts; store in `runs/quantization-drift.json`. Acceptance: the
-promoted GGUF must score within noise of the FP16 master on `B_target`
+promoted GGUF MUST score within noise of the FP16 master on `B_target`
 (report actual numbers; do not assume).
 
 ## 7. Reporting
